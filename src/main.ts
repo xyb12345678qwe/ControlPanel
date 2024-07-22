@@ -5,8 +5,9 @@ import json from 'koa-json'
 import logger from 'koa-logger'
 import { server } from './model/server.js'
 import TEST from './router/test.js'
-const app = new Koa();
-app.use(cors()).use(bodyparser()).use(json()).use(logger())
+import { authMiddleware } from './router/middleware.js'
+export const app = new Koa();
+app.use(cors()).use(bodyparser()).use(json()).use(logger()).use(authMiddleware)
 app.use(TEST.routes()).use(TEST.allowedMethods())
 const { port: PORT, IP } = await server.findPORT()
 const ip = IP.replace('http://', '')

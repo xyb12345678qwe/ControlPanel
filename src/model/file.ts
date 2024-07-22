@@ -1,13 +1,17 @@
 import { join, dirname } from 'path'
 import { writeFileSync, existsSync, mkdirSync, readFileSync } from 'fs'
 import yaml from 'js-yaml';
-//ts定义类型
+import { DirPath } from '../../config.js';
 
 type filePathType = {
     server: string
+    key: string
+    admin: string
 }
 type defaultconfigType = {
     server: object
+    key: object
+    admin: object
 }
 class file {
     filePath: filePathType
@@ -15,13 +19,24 @@ class file {
 
     constructor() {
         this.filePath = {
-            server: join(process.cwd(), 'config', 'server.yaml'),
+            server: join(DirPath, 'config', 'server.yaml'),
+            key: join(DirPath, 'config', 'key.yaml'),
+            admin: join(DirPath, 'config', 'admin.yaml')
         }
         this.defaultconfig = {
             server: {
                 IP: "127.0.0.1",
                 Port: 8080
             },
+            key: {
+                ADMINLOGINKEY: 'mz_bot_admin_login_key' //admin登录key
+            },
+            admin: [
+                {
+                    name: 'admin',
+                    password: 'admin'
+                }
+            ]
         }
         const filePaths = Object.keys(this.filePath) as (keyof filePathType)[];;
         for (const key of filePaths) {
