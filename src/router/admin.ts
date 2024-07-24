@@ -24,13 +24,6 @@ router.post('/login', async (ctx: Koa.Context) => {
         return;
     }
     const token = jwt.sign({ name, password }, key, { expiresIn: '24h' });
-    // 将 token 存储在 cookie 中
-    ctx.cookies.set('admin_login_token', token, {
-        httpOnly: true, // 防止客户端 JavaScript 访问
-        maxAge: 24 * 60 * 60 * 1000, // 24小时（单位：毫秒）
-        secure: process.env.NODE_ENV === 'production', // 在生产环境中启用 HTTPS
-        sameSite: 'lax', // 防止跨站请求伪造（CSRF）攻击
-    });
     ctx.body = { code: 200, msg: '登录成功', token }
 })
 export default router;

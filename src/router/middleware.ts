@@ -25,7 +25,7 @@ export const verifyToken = (token: string, secretKey: string) => {
  */
 export const authMiddleware = async (ctx, next) => {
     if (ctx.path === '/admin/login') {
-        const token = ctx.cookies.get('admin_login_token');
+        const token = ctx.request.headers["authorization"];
         if (token) {
             const SECRET_KEY = (File.readFile('key')).ADMINLOGINKEY
             const decoded = verifyToken(token, SECRET_KEY);
