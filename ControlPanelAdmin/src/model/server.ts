@@ -3,12 +3,18 @@ import net from 'net'
 class serve {
     port: number
     IP: string
-    constructor() { }
+    constructor() {
+        this.port = 0
+        this.IP = ""
+    }
     async findPORT(): Promise<{
         port: number,
         IP: string
     }> {
-        const config = File.readFile('server')
+        const config: {
+            Port?: number,
+            IP?: string
+        } = File.readFile('server') as any
         let port = config.Port || 19876
         this.IP = config.IP || "http://127.0.0.1"
         while (true) {
@@ -30,7 +36,7 @@ class serve {
     getIP(): string {
         if (!this.port) {
             this.findPORT()
-            return;
+            return ``;
         }
         return `${this.IP}:${this.port}`
     }

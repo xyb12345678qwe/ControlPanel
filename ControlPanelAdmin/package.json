@@ -1,0 +1,34 @@
+{
+  "name": "controlpaneladmin",
+  "module": "index.ts",
+  "type": "module",
+  "scripts": {
+    "start": "bun src/main.ts",
+    "dev": "nodemon --exec bun src/main.ts --watch ./"
+  },
+  "devDependencies": {
+    "@types/bun": "latest",
+    "@types/jsonwebtoken": "^9.0.6",
+    "@types/koa-router": "^7.4.8",
+    "jsonwebtoken": "^9.0.2",
+    "koa-router": "^12.0.1",
+    "nodemon": "^3.1.4"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  },
+  "dependencies": {
+    "@types/js-yaml": "^4.0.9",
+    "@types/koa": "^2.15.0",
+    "@types/koa-bodyparser": "^4.3.12",
+    "@types/koa-json": "^2.0.23",
+    "@types/koa-logger": "^3.1.5",
+    "@types/koa2-cors": "^2.0.5",
+    "js-yaml": "^4.1.0",
+    "koa": "^2.15.3",
+    "koa-bodyparser": "^4.4.1",
+    "koa-json": "^2.0.2",
+    "koa-logger": "^3.2.1",
+    "koa2-cors": "^2.0.6"
+  }
+}

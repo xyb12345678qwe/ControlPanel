@@ -1,7 +1,7 @@
 import { join, dirname } from 'path'
 import { writeFileSync, existsSync, mkdirSync, readFileSync } from 'fs'
 import yaml from 'js-yaml';
-import { DirPath } from '../../config.js';
+import { DirPath } from '../../../config.js';
 
 type filePathType = {
     server: string
