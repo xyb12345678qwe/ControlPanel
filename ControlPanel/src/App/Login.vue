@@ -2,6 +2,9 @@
   <div class="login-container">
     <div class="form-container">
       <Row>
+        <h1 class="login-font">MzBot控制台</h1>
+      </Row>
+      <Row>
         <Field v-model="username" label="用户名" required right-icon="delete-o" @click-right-icon="resetUsername">
         </Field>
       </Row>
@@ -49,6 +52,7 @@ export default {
     async Login() {
       // 登录
       const res = await login(this.username , this.password)
+      console.log(res)
       if (this.checked) {
         localStorage.setItem("username" , this.username)
         localStorage.setItem("password" , this.password)
@@ -71,20 +75,41 @@ export default {
 </script>
 
 <style scoped>
+/* @keyframes blink {
+  0% { color: blue; }
+  12.5% {color: aquamarine; }
+  25% {color: indigo; }
+  50% { color: white; }
+  75% {color: crimson; }
+  100% { color: blue; }
+} */
+.login-font {
+  font-size: 52px;
+  animation: blink 1s infinite;
+}
 .login-container {
   top: 200px;
   width: auto;
-  max-width: 400px;
+  max-width: 100%;
   margin: 0 auto;
   padding: 20px;
   box-sizing: border-box;
-  background-image: url("@/assets/8d8d10a0cc69149d7af460b727a8165d.jpg");
+  background-image: linear-gradient(rgba(0, 0, 255, 0.5), rgba(255, 255, 255, 0.5));
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
 }
 .form-container {
   display: flex;
   flex-direction: column;
-  top: 20%;
-  left: 50%;
-  border-radius: 5px;
+  border-radius: 10px;
+  border: 2px solid;
+  border-image-source: linear-gradient(to right, blue, white);
+  border-image-slice: 1;
+  padding: 10px;
+  margin: 10px;
 }
 </style>

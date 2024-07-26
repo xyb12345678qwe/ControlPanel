@@ -71,7 +71,7 @@ class file {
         writeFileSync(this.filePath[key], JSON.stringify(data, null, 2))
     }
     get(key: "filePath" | "defaultconfig" | "key") {
-        return this[key]
+        return this[key];
     }
 }
 export const File = new file()
