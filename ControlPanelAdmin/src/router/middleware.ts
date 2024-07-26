@@ -1,12 +1,11 @@
 import jwt from 'jsonwebtoken'
-import { File } from '../model/file.js'
 /**
  * 生成 JWT
  * @param payload
  * @returns
  */
-export const generateToken = (payload: any, secretKey: string) => {
-    return jwt.sign(payload, secretKey, { expiresIn: '1h' })
+export const generateToken = (payload: any, secretKey: string, expiresIn = '24h') => {
+    return jwt.sign(payload, secretKey, { expiresIn })
 }
 
 /**
@@ -24,17 +23,5 @@ export const verifyToken = (token: string, secretKey: string) => {
  * @param next
  */
 export const authMiddleware = async (ctx: any, next: any) => {
-    if (ctx.path === '/admin/login') {
-        const token = ctx.request.headers["authorization"];
-        if (token) {
-            const SECRET_KEY = (File.readFile('key') as any).ADMINLOGINKEY
-            const decoded = verifyToken(token, SECRET_KEY);
-            ctx.state.user = decoded; // 将解码后的用户信息存储在 ctx.state 中
-            ctx.body = `<h1>hello,world</h1>`
-        } else {
-            await next()
-        }
-    } else {
-        await next()
-    }
+    await next()
 }

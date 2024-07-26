@@ -16,7 +16,9 @@ type defaultconfigType = {
 class file {
     filePath: filePathType
     defaultconfig: defaultconfigType
-
+    key: {
+        ADMINLOGINKEY: string
+    }
     constructor() {
         this.filePath = {
             server: join(DirPath, 'config', 'server.yaml'),
@@ -38,11 +40,16 @@ class file {
                 }
             ]
         }
+        this.key = this.defaultconfig.key as { ADMINLOGINKEY: string }
         const filePaths = Object.keys(this.filePath) as (keyof filePathType)[];;
         for (const key of filePaths) {
             if (!existsSync(this.filePath[key])) {
                 this.createFilePath(key as keyof filePathType);
                 this.writeFile(key, this.defaultconfig[key] || {});
+            } else {
+                if (key === 'key') {
+                    this.key = this.readFile(key) as { ADMINLOGINKEY: string }
+                }
             }
         }
     }
@@ -62,6 +69,9 @@ class file {
     }
     writeFileJson(key: keyof filePathType, data: object) {
         writeFileSync(this.filePath[key], JSON.stringify(data, null, 2))
+    }
+    get(key: "filePath" | "defaultconfig" | "key") {
+        return this[key]
     }
 }
 export const File = new file()

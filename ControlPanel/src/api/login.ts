@@ -1,11 +1,10 @@
 import request from "../utils/request.js";
 
 export const login = (username: string, password: string) => {
-    return request({
-        url: '',
-        params: {
-            username: username,
-            password: password
-        }
+    console.log(username)
+    console.log(password)
+    return request.post('/admin/login', {
+        name: username,
+        password: password
     })
 }

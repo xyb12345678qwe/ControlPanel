@@ -1,6 +1,7 @@
 import 'vant/lib/index.css'
 import { createApp } from 'vue';
-import adminLogin from './App/adminLogin.vue';
 import Vant from 'vant'
-const app = createApp(adminLogin);
-app.use(Vant).mount('#app'); //挂载
+import router from "@/router";
+import App from '@/App/index.vue'
+const app = createApp(App);
+app.use(Vant).use(router).mount('#app'); //挂载

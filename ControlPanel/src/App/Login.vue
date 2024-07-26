@@ -40,8 +40,8 @@ export default {
   },
   data() {
     return {
-      username: '',
-      password: '',
+      username: localStorage.getItem("username"),
+      password: localStorage.getItem("password"),
       checked : false
     };
   },
@@ -49,9 +49,6 @@ export default {
     async Login() {
       // 登录
       const res = await login(this.username , this.password)
-      if (res.data === '登陆成功') {
-
-      }
       if (this.checked) {
         localStorage.setItem("username" , this.username)
         localStorage.setItem("password" , this.password)
