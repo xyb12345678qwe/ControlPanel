@@ -28,7 +28,7 @@ class file {
         this.defaultconfig = {
             server: {
                 IP: "127.0.0.1",
-                Port: 8080
+                Port: 16874
             },
             key: {
                 ADMINLOGINKEY: 'mz_bot_admin_login_key' //admin登录key

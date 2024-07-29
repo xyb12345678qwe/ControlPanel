@@ -1,7 +1,7 @@
 import axios from "axios";
-import {store} from '@/store'
+import { store } from '@/store'
 const request = axios.create({
-    baseURL: 'http://127.0.0.1:8080',
+    baseURL: 'http://127.0.0.1:16874',
     timeout: 3000
 });
 
