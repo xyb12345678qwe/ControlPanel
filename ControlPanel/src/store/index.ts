@@ -1,10 +1,6 @@
 import { createStore } from 'vuex';
 
-interface State {
-  token: string;
-}
-
-export const store = createStore<State>({
+export default createStore({
   state: {
     token: ''
   },

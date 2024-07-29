@@ -1,14 +1,20 @@
 import axios from "axios";
-import { store } from '@/store'
+import {showToast , showLoadingToast , closeToast} from "vant";
+
 const request = axios.create({
-    baseURL: 'http://127.0.0.1:16874',
+    baseURL: 'http://127.0.0.1:8080',
     timeout: 3000
 });
 
 // 添加请求拦截器
 request.interceptors.request.use(function (config) {
     // 在发送请求之前做些什么
-    const token = store.state.token;
+    showLoadingToast({
+        message : '请求中...',
+        forbidClick : true,
+        loadingType: 'spinner',
+    })
+    const token = localStorage.getItem("token");
     if (token) {
         config.headers.Authorization = token;
     }
@@ -22,8 +28,10 @@ request.interceptors.request.use(function (config) {
 request.interceptors.response.use(function (response) {
     // 2xx 范围内的状态码都会触发该函数。
     if (response.status !== 200) {
-        console.log(response.data)
+       showToast(response.data)
         return Promise.reject()
+    }else {
+        closeToast()
     }
     // 对响应数据做点什么
     return response.data;

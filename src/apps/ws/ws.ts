@@ -18,6 +18,9 @@ export class ws extends MzPlugin {
         // let _data = JSON.stringify(e), dataClone = JSON.parse(_data);
         // console.log(`ws消息:${dataClone}`)
         // info(dataClone)
-        wss.send(JSON.stringify(e))
+        wss.send(JSON.stringify({
+            type: 'ws',
+            data: e
+        }))
     }
 }
