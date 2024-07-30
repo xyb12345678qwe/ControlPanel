@@ -1,8 +1,14 @@
 import axios from "axios";
 import { showToast, showLoadingToast, closeToast } from "vant";
+const config = {
+    IP: "http://localhost",
+    Port: 3000
+}
+const IP = `${config.IP}:${config.Port}`
+console.log(`请求地址:${IP}`);
 
 const request = axios.create({
-    baseURL: 'http://127.0.0.1:8080',
+    baseURL: IP,
     timeout: 3000
 });
 

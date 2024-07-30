@@ -15,7 +15,7 @@ class serve {
             Port?: number,
             IP?: string
         } = File.readFile('server') as any
-        let port = config.Port || 19876
+        let port = config.Port || 16874
         this.IP = config.IP || "http://127.0.0.1"
         while (true) {
             const res = await this.portUsed(port);
@@ -27,6 +27,7 @@ class serve {
                 break; // 找到未使用的端口，退出循环
             }
         }
+        File.writeFile('server', { Port: config.Port, IP: config.IP, newPort: port })
         this.port = port;
         return {
             port,
