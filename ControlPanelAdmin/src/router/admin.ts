@@ -3,9 +3,13 @@ import Koa from 'koa'
 import { File } from '../model/index.js';
 import { generateToken } from './middleware.js'
 const router = new koaRouter({ prefix: '/admin' });
+import { File as MzFile } from 'mz-botjs'
 
+/**
+ * 登录
+ */
 router.post('/login', async (ctx: Koa.Context) => {
-    const { name, password } = ctx.request.body as any;
+    const { name, password } = ctx.request.body as { name: string, password: string };
     if (!name || !password) {
         ctx.body = {
             code: 401,
@@ -23,5 +27,71 @@ router.post('/login', async (ctx: Koa.Context) => {
     const token = generateToken({ name, password }, key)
     // const token = jwt.sign({ name, password }, key, { expiresIn: '24h' });
     ctx.body = { code: 200, msg: '登录成功', token }
+})
+/**
+ * 增加主人
+ */
+router.post('/addMaster', async (ctx: Koa.Context) => {
+    const { qq } = ctx.request.body as { qq: string };
+    const config = MzFile.readFile('master')
+    const masters = config.masters as any
+    if (masters.includes(qq)) {
+        ctx.body = { code: 401, msg: '该QQ已存在' }
+    } else {
+        masters.push(qq)
+        MzFile.writeFile('master', masters)
+        ctx.body = { code: 200, msg: '添加成功' }
+    }
+    return;
+})
+/**
+ * 减少主人
+ */
+router.post('/subMaster', async (ctx: Koa.Context) => {
+    const { qq } = ctx.request.body as { qq: string };
+    const config = MzFile.readFile('master')
+    const masters = config.masters as []
+    masters.filter(item => item !== qq)
+    MzFile.writeFile('master', masters)
+    ctx.body = { code: 200, msg: '减少成功' }
+    return;
+})
+/**
+ * 增加机器人配置
+ */
+router.post('/addRobot', async (ctx: Koa.Context) => {
+    const { botType, configName, appID, token, secret, } = ctx.request.body as { botType: string, appID: string, token: string, secret: string, configName: string };
+    let config = MzFile.readFile('BotConfig')
+    if (!configName) {
+        ctx.body = { code: 401, msg: '参数不能为空' }
+    }
+    if (botType == 'ntqq') {
+        if (!appID || !token || !secret) {
+            ctx.body = { code: 401, msg: '参数不能为空' }
+            return;
+        }
+        config[configName][botType] = { appID, token, secret }
+        MzFile.writeFile('BotConfig', config)
+    } else if (botType == 'kook') {
+        if (!token) {
+            ctx.body = { code: 401, msg: '参数不能为空' }
+            return;
+        }
+        config[configName][botType] = { token }
+    } else {
+        config[configName][botType] = {}
+    }
+})
+router.post('/updatePort', async (ctx: Koa.Context) => {
+    const { port } = ctx.request.body as { port: string };
+    if (!port) {
+        ctx.body = { code: 401, msg: '参数不能为空' }
+        return;
+    }
+    let config = File.readFile('server') as any
+    config.Port = port
+    File.writeFile('server', config)
+    ctx.body = { code: 200, msg: '修改成功' }
+    return;
 })
 export default router;
