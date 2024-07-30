@@ -1,5 +1,5 @@
 import axios from "axios";
-import {showToast , showLoadingToast , closeToast} from "vant";
+import { showToast, showLoadingToast, closeToast } from "vant";
 
 const request = axios.create({
     baseURL: 'http://127.0.0.1:8080',
@@ -10,8 +10,8 @@ const request = axios.create({
 request.interceptors.request.use(function (config) {
     // 在发送请求之前做些什么
     showLoadingToast({
-        message : '请求中...',
-        forbidClick : true,
+        message: '请求中...',
+        forbidClick: true,
         loadingType: 'spinner',
     })
     const token = localStorage.getItem("token");
@@ -28,9 +28,9 @@ request.interceptors.request.use(function (config) {
 request.interceptors.response.use(function (response) {
     // 2xx 范围内的状态码都会触发该函数。
     if (response.status !== 200) {
-       showToast(response.data)
+        showToast(response.data)
         return Promise.reject()
-    }else {
+    } else {
         closeToast()
     }
     // 对响应数据做点什么

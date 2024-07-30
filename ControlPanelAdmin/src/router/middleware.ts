@@ -23,5 +23,16 @@ export const verifyToken = (token: string, secretKey: string) => {
  * @param next
  */
 export const authMiddleware = async (ctx: any, next: any) => {
-    await next()
+    if (ctx.path !== '/admin/login') {
+        const token = ctx.request.headers["authorization"];
+        if (!token) {
+            ctx.body = {
+                code: 401,
+                message: '未登录'
+            }
+            return
+        }
+    } else {
+        await next()
+    }
 }

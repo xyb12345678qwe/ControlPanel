@@ -60,7 +60,7 @@ export default {
           localStorage.setItem("password" , this.password)
         }
 
-        this.$router.push('/')
+        this.$router.push('/addMaster')
       }else {
         // 登录失败
         this.username = ''

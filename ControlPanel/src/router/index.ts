@@ -15,23 +15,23 @@ const routes = [
     {
         path: '/',
         component: Home,
-        redirect : '/login',
-        children : [
+        redirect: '/login',
+        children: [
             {
-                path : '/addRobot',
-                component : AddRobot
+                path: '/addRobot',
+                component: AddRobot
             },
             {
-                path : '/updateRobot',
-                component : UpdateRobot
+                path: '/updateRobot',
+                component: UpdateRobot
             },
             {
-                path : '/subMaster',
-                component : SubMaster
+                path: '/subMaster',
+                component: SubMaster
             },
             {
-                path : '/updatePort',
-                component : UpdatePort
+                path: '/updatePort',
+                component: UpdatePort
             },
             {
                 path: '/addMaster',
@@ -48,16 +48,18 @@ const router = createRouter(<RouterOptions>{
     history: createWebHistory(),
     routes
 })
-const authURL = ['/pay','addMaster','updateRobot'] // 全局保护索引
-router.beforeEach((to , from , next) => {
+const authURL = ['/pay', 'addMaster', 'updateRobot', 'login'] // 全局保护索引
+router.beforeEach((to, from, next) => {
     const token = localStorage.getItem("token")
-    if (!authURL.includes(to.path)){
+    console.log(token);
+
+    if (!authURL.includes(to.path)) {
         next()
         return
-    }else {
+    } else {
         if (token) {
             next()
-        }else {
+        } else {
             next('/login')
         }
     }
