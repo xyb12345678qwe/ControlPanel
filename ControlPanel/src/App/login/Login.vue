@@ -49,18 +49,18 @@ export default {
     };
   },
   methods: {
-    async Login() {
+    Login() {
       // 登录
-      const res = await login(this.username , this.password)
-      if (res.code === 200) {
+      const {code , token} = login(this.username , this.password)
+      if (code === 200) {
         // 此时登陆成功
-        this.$store.commit('setToken' , res.token)
+        this.$store.commit('setToken' , token)
         if (this.checked) {
           localStorage.setItem("username" , this.username)
           localStorage.setItem("password" , this.password)
         }
 
-        this.$router.push('/addMaster')
+        this.$router.push('/home')
       }else {
         // 登录失败
         this.username = ''

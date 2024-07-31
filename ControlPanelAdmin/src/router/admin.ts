@@ -1,9 +1,11 @@
 import koaRouter from 'koa-router';
 import Koa from 'koa'
+import { DirPath } from '../../../../../config.js';
+import path from 'path'
 import { File } from '../model/index.js';
 import { generateToken } from './middleware.js'
 const router = new koaRouter({ prefix: '/admin' });
-import { File as MzFile } from 'mz-botjs'
+
 
 /**
  * 登录
@@ -33,13 +35,14 @@ router.post('/login', async (ctx: Koa.Context) => {
  */
 router.post('/addMaster', async (ctx: Koa.Context) => {
     const { qq } = ctx.request.body as { qq: string };
-    const config = MzFile.readFile('master')
+    const url = path.join(DirPath, 'config', 'master', 'master.yaml')
+    const config = File.readFileByUrl(url) as any
     const masters = config.masters as any
     if (masters.includes(qq)) {
         ctx.body = { code: 401, msg: '该QQ已存在' }
     } else {
         masters.push(qq)
-        MzFile.writeFile('master', masters)
+        File.writeFileByUrl(url, masters)
         ctx.body = { code: 200, msg: '添加成功' }
     }
     return;
@@ -49,10 +52,11 @@ router.post('/addMaster', async (ctx: Koa.Context) => {
  */
 router.post('/subMaster', async (ctx: Koa.Context) => {
     const { qq } = ctx.request.body as { qq: string };
-    const config = MzFile.readFile('master')
+    const url = path.join(DirPath, 'config', 'master', 'master.yaml')
+    const config = File.readFileByUrl(url) as any
     const masters = config.masters as []
     masters.filter(item => item !== qq)
-    MzFile.writeFile('master', masters)
+    File.writeFileByUrl(url, masters)
     ctx.body = { code: 200, msg: '减少成功' }
     return;
 })
@@ -61,7 +65,8 @@ router.post('/subMaster', async (ctx: Koa.Context) => {
  */
 router.post('/addRobot', async (ctx: Koa.Context) => {
     const { botType, configName, appID, token, secret, } = ctx.request.body as { botType: string, appID: string, token: string, secret: string, configName: string };
-    let config = MzFile.readFile('BotConfig')
+    const url = path.join(DirPath, 'config', 'config.yaml')
+    let config = File.readFileByUrl(url) as any
     if (!configName) {
         ctx.body = { code: 401, msg: '参数不能为空' }
     }
@@ -71,7 +76,7 @@ router.post('/addRobot', async (ctx: Koa.Context) => {
             return;
         }
         config[configName][botType] = { appID, token, secret }
-        MzFile.writeFile('BotConfig', config)
+        File.writeFileByUrl(url, config)
     } else if (botType == 'kook') {
         if (!token) {
             ctx.body = { code: 401, msg: '参数不能为空' }
@@ -84,13 +89,14 @@ router.post('/addRobot', async (ctx: Koa.Context) => {
 })
 router.post('/updatePort', async (ctx: Koa.Context) => {
     const { port } = ctx.request.body as { port: string };
+    const url = path.join(DirPath, 'config', 'server', 'server.yaml')
     if (!port) {
         ctx.body = { code: 401, msg: '参数不能为空' }
         return;
     }
-    let config = File.readFile('server') as any
-    config.Port = port
-    File.writeFile('server', config)
+    let config = File.readFileByUrl(url) as any
+    config.port = port
+    File.writeFileByUrl(url, config)
     ctx.body = { code: 200, msg: '修改成功' }
     return;
 })

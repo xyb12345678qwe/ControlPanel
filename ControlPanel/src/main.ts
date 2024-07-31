@@ -13,3 +13,4 @@ app.use(store)
 app.use(Toast)
 app.use(Icon)
 app.mount('#app'); //挂载
+

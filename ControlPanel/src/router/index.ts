@@ -5,17 +5,20 @@ import AddRobot from '../App/layout/AddRobot.vue'
 import SubMaster from '../App/layout/SubMaster.vue'
 import UpdatePort from '../App/layout/UpdatePort.vue'
 import UpdateRobot from '../App/layout/UpdateRobot.vue'
+import UpdatePassword from '../App/layout/UpdatePassword.vue'
+import Index from '../App/layout/Home.vue'
 import NotFound from '../App/notfound/index.vue'
+import authRule from '@/config'
 import { createRouter, createWebHistory, RouterOptions } from "vue-router";
 const routes = [
     {
-        path: '/login',
+        path: '/',
         component: Login
     },
     {
-        path: '/',
+        path: '/home',
         component: Home,
-        redirect: '/login',
+        redirect: '/index',
         children: [
             {
                 path: '/addRobot',
@@ -36,6 +39,14 @@ const routes = [
             {
                 path: '/addMaster',
                 component: AddMaster
+            },
+            {
+                path: '/updatePassword',
+                component: UpdatePassword
+            },
+            {
+                path: '/index',
+                component: Index
             }
         ]
     },
@@ -48,19 +59,16 @@ const router = createRouter(<RouterOptions>{
     history: createWebHistory(),
     routes
 })
-const authURL = ['/pay', 'addMaster', 'updateRobot', 'login'] // 全局保护索引
 router.beforeEach((to, from, next) => {
     const token = localStorage.getItem("token")
-    console.log(token);
-
-    if (!authURL.includes(to.path)) {
+    if (!authRule.includes(to.path)) {
         next()
         return
     } else {
         if (token) {
             next()
         } else {
-            next('/login')
+            next('/')
         }
     }
 })

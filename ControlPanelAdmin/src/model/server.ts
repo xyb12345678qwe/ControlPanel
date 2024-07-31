@@ -17,16 +17,16 @@ class serve {
         } = File.readFile('server') as any
         let port = config.Port || 16874
         this.IP = config.IP || "http://127.0.0.1"
-        while (true) {
-            const res = await this.portUsed(port);
-            if (res instanceof Error) {
-                console.info(`Port ${port} is used, trying to find another port...`);
-                port++; // 递增端口并继续循环
-            } else {
-                console.info(`Port ${port} is available.`);
-                break; // 找到未使用的端口，退出循环
-            }
-        }
+        // while (true) {
+        //     const res = await this.portUsed(port);
+        //     if (res instanceof Error) {
+        //         console.info(`Port ${port} is used, trying to find another port...`);
+        //         port++; // 递增端口并继续循环
+        //     } else {
+        //         console.info(`Port ${port} is available.`);
+        //         break; // 找到未使用的端口，退出循环
+        //     }
+        // }
         File.writeFile('server', { Port: config.Port, IP: config.IP, newPort: port })
         this.port = port;
         return {

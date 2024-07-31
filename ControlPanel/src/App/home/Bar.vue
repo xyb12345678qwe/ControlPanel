@@ -16,6 +16,8 @@
       </Row>
     </header>
     <Sidebar v-model="action">
+      <SidebarItem title="主页&nbsp;&nbsp;&nbsp;&nbsp;" @click="this.$router.push('/home')">
+      </SidebarItem>
       <SidebarItem title="增加主人&nbsp;&nbsp;&nbsp;&nbsp;" @click="this.$router.push('/addMaster')">
       </SidebarItem>
       <SidebarItem title="减少主人&nbsp;&nbsp;&nbsp;&nbsp;" @click="this.$router.push('/subMaster')">

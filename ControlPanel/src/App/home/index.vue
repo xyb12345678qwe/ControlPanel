@@ -36,6 +36,8 @@
 <script>
 import Bar from "@/App/home/Bar.vue";
 import {Row, Col, showToast} from 'vant'
+import {useRouter} from 'vue-router'
+import {useStore} from 'vuex'
 import {ref} from "vue";
 export default {
   components : {
@@ -45,14 +47,25 @@ export default {
   },
   setup(){
     const showPopover = ref(false);
-
+    const router = useRouter()
+    const store = useStore()
     // 通过 actions 属性来定义菜单选项
     const actions = [
       { text: '重置密码' },
       { text: '注销' },
       { text: '登出' },
     ];
-    const onSelect = (action) => showToast(action.text);
+    const onSelect = (action) => {
+      if (action.text === actions[0].text) {
+        router.push('/updatePassword')
+      }else if (action.text === actions[1].text) {
+        //TODO
+      }else if (action.text === actions[2].text) {
+        localStorage.removeItem("token")
+        store.commit('setToken' , '')
+        router.push('/')
+      }
+    }
 
     return {
       actions,

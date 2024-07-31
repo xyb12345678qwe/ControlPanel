@@ -71,6 +71,14 @@ class file {
     writeFileJson(key: keyof filePathType, data: object) {
         writeFileSync(this.filePath[key], JSON.stringify(data, null, 2))
     }
+    readFileByUrl(url: string) {
+        const yamlContent = readFileSync(url, 'utf8');
+        return yaml.load(yamlContent);
+    }
+    writeFileByUrl(url: string, data: object) {
+        const yamlContent = yaml.dump(data);
+        writeFileSync(url, yamlContent);
+    }
     get(key: "filePath" | "defaultconfig" | "key") {
         return this[key];
     }
